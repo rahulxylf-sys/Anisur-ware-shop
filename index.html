@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anisur Wear — Fashion Store</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f6f7f9;color:#151515}
+header{background:linear-gradient(135deg,#ff4b16,#ff7a00);color:#fff;padding:18px 16px 24px;border-radius:0 0 28px 28px}
+.top{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:auto}.logo{font-size:26px;font-weight:900}.cart{background:#fff;color:#222;border:0;border-radius:16px;padding:12px 16px;font-weight:800}
+.hero{max-width:1100px;margin:20px auto 0}.hero h1{font-size:34px;margin:8px 0}.hero p{font-size:17px;opacity:.95}
+.search{width:100%;padding:16px 18px;border:0;border-radius:18px;font-size:17px;margin-top:12px}
+main{max-width:1100px;margin:22px auto;padding:0 14px}.cats{display:flex;gap:10px;overflow:auto;padding-bottom:10px}.cat{border:1px solid #ddd;background:#fff;border-radius:999px;padding:11px 18px;white-space:nowrap;font-weight:700}.cat.active{background:#ff4b16;color:#fff;border-color:#ff4b16}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px}.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 18px #0000000d}.pic{width:100%;aspect-ratio:1/1.05;object-fit:cover;background:#eee}.body{padding:13px}.tag{font-size:12px;color:#087b4f;font-weight:800}.name{font-size:17px;font-weight:800;margin:5px 0}.price{font-size:20px;font-weight:900}.old{text-decoration:line-through;color:#999;font-size:13px;margin-left:5px}.add{width:100%;border:0;background:#151515;color:#fff;padding:12px;border-radius:12px;font-weight:800;margin-top:10px}
+.empty{text-align:center;padding:40px;color:#777}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#151515;color:#fff;padding:13px 18px;border-radius:14px;display:none;z-index:10}
+</style>
+</head>
+<body>
+<header><div class="top"><div class="logo">ANISUR WEAR</div><button class="cart" onclick="openCart()">🛒 Cart (<span id="count">0</span>)</button></div>
+<div class="hero"><h1>Premium Fashion Store</h1><p>Shirt • Pant • Jeans • T-Shirt • Kurta & More</p><input id="search" class="search" placeholder="Search shirt, pant, jeans..." oninput="render()"></div></header>
+<main><div class="cats" id="cats"></div><h2>Featured Collection</h2><div id="grid" class="grid"></div></main>
+<div id="toast" class="toast"></div>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,collection,getDocs,addDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {firebaseConfig} from "./firebase-config.js";
+const app=initializeApp(firebaseConfig),db=getFirestore(app);
+let products=[],cart=[],category="All";
+const demo=[
+{name:"Premium Black Shirt",category:"Shirts",type:"Men",price:799,oldPrice:999,image:"https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=700&q=80"},
+{name:"Classic Blue Jeans",category:"Jeans",type:"Men",price:1199,oldPrice:1499,image:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=700&q=80"},
+{name:"Slim Fit T-Shirt",category:"T-Shirts",type:"Men",price:499,oldPrice:699,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80"},
+{name:"Women's Casual Dress",category:"Dresses",type:"Women",price:899,oldPrice:1199,image:"https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=700&q=80"}];
+async function load(){try{const s=await getDocs(collection(db,"products"));products=s.docs.map(x=>({id:x.id,...x.data()}));if(!products.length)products=demo}catch(e){products=demo}render()}
+function renderCats(){let cs=["All",...new Set(products.map(x=>x.category).filter(Boolean))];document.getElementById("cats").innerHTML=cs.map(c=>`<button class="cat ${c===category?"active":""}" onclick="setCat('${c.replaceAll("'","")}')">${c}</button>`).join("")}
+window.setCat=c=>{category=c;render()}
+window.render=()=>{renderCats();let q=document.getElementById("search").value.toLowerCase();let list=products.filter(x=>(category==="All"||x.category===category)&&(`${x.name} ${x.category} ${x.type}`.toLowerCase().includes(q)));document.getElementById("grid").innerHTML=list.length?list.map(p=>`<div class="card"><img class="pic" src="${p.image||"https://via.placeholder.com/500?text=No+Image"}" alt="${p.name}"><div class="body"><div class="tag">${p.type||"Fashion"} • ${p.category||""}</div><div class="name">${p.name}</div><div class="price">₹${p.price||0} <span class="old">₹${p.oldPrice||""}</span></div><button class="add" onclick='add(${JSON.stringify(p).replaceAll("'","&#39;")})'>Add to Cart</button></div></div>`).join(""):`<div class="empty">কোনো product পাওয়া যায়নি</div>`}
+window.add=p=>{cart.push(p);document.getElementById("count").textContent=cart.length;toast("Product cart-এ যোগ হয়েছে 🛒")}
+window.openCart=async()=>{if(!cart.length){toast("Cart খালি");return}let text="🛍️ ANISUR WEAR ORDER%0A%0A"+cart.map((p,i)=>`${i+1}. ${p.name} - ₹${p.price}`).join("%0A")+`%0A%0ATotal: ₹${cart.reduce((s,p)=>s+Number(p.price||0),0)}%0A%0AName:%0AMobile:%0AAddress:`;location.href="https://wa.me/916297615639?text="+text}
+function toast(t){let e=document.getElementById("toast");e.textContent=t;e.style.display="block";setTimeout(()=>e.style.display="none",1800)}
+load();
+</script>
+</body></html>
