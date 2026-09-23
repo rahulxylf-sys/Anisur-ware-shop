@@ -1,20 +1,8 @@
 export const firebaseConfig = {
-
-    apiKey: "PASTE_API_KEY",
-
-    authDomain:
-    "PASTE_PROJECT_ID.firebaseapp.com",
-
-    projectId:
-    "PASTE_PROJECT_ID",
-
-    storageBucket:
-    "PASTE_PROJECT_ID.firebasestorage.app",
-
-    messagingSenderId:
-    "PASTE_SENDER_ID",
-
-    appId:
-    "PASTE_APP_ID"
-
+  apiKey: "AIzaSyDeGRY9J4CS8zCI4_8FYvwdWnH6OSE8Lx8",
+  authDomain: "anisur-shop-admin.firebaseapp.com",
+  projectId: "anisur-shop-admin",
+  storageBucket: "anisur-shop-admin.firebasestorage.app",
+  messagingSenderId: "768869353575",
+  appId: "1:768869353575:web:ff3d4b48f781ea69df2cc2"
 };
