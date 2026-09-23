@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ANISUR WEAR | Premium Fashion</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f5f5;
+    color:#171717;
+    padding-bottom:80px;
+}
+
+:root{
+    --orange:#ff4b18;
+    --orange2:#ff741f;
+    --dark:#171717;
+}
+
+.header{
+    background:linear-gradient(135deg,#ff3510,#ff741f);
+    color:white;
+    padding:18px 15px 25px;
+    border-radius:0 0 30px 30px;
+}
+
+.header-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:58px;
+    height:58px;
+    background:white;
+    color:var(--orange);
+    border-radius:18px;
+    display:grid;
+    place-items:center;
+    font-weight:900;
+    font-size:21px;
+}
+
+.brand h1{
+    font-size:25px;
+}
+
+.brand p{
+    font-size:13px;
+    margin-top:4px;
+}
+
+.cart-btn{
+    background:white;
+    color:var(--orange);
+    border:0;
+    border-radius:25px;
+    padding:12px 16px;
+    font-weight:bold;
+}
+
+.search{
+    max-width:1100px;
+    margin:20px auto 0;
+}
+
+.search input{
+    width:100%;
+    padding:16px;
+    border:0;
+    border-radius:18px;
+    font-size:16px;
+    outline:none;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:18px 15px;
+}
+
+.categories{
+    display:flex;
+    gap:9px;
+    overflow:auto;
+    padding-bottom:15px;
+}
+
+.category{
+    white-space:nowrap;
+    background:white;
+    border:1px solid #eee;
+    border-radius:22px;
+    padding:10px 16px;
+    font-weight:bold;
+}
+
+.category.active{
+    background:var(--orange);
+    color:white;
+}
+
+.hero{
+    background:linear-gradient(120deg,#171717,#383838);
+    color:white;
+    border-radius:23px;
+    padding:25px;
+    margin-bottom:22px;
+}
+
+.hero h2{
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#ddd;
+    line-height:1.5;
+}
+
+.title{
+    display:flex;
+    justify-content:space-between;
+    margin:15px 0;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.product{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 4px 15px #00000010;
+}
+
+.product img{
+    width:100%;
+    height:210px;
+    object-fit:cover;
+}
+
+.product-body{
+    padding:13px;
+}
+
+.badge{
+    display:inline-block;
+    color:#168b4b;
+    border:1px solid #168b4b;
+    border-radius:7px;
+    padding:4px 7px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.product h3{
+    font-size:16px;
+    margin:8px 0 5px;
+}
+
+.description{
+    font-size:12px;
+    color:#777;
+    min-height:30px;
+}
+
+.product-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:12px;
+}
+
+.price{
+    color:var(--orange);
+    font-size:20px;
+    font-weight:900;
+}
+
+.old-price{
+    color:#999;
+    text-decoration:line-through;
+    font-size:12px;
+    margin-left:5px;
+}
+
+.add{
+    background:var(--orange);
+    color:white;
+    border:0;
+    padding:10px 13px;
+    border-radius:11px;
+    font-weight:bold;
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:75px;
+    background:white;
+    box-shadow:0 -4px 18px #0002;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    z-index:20;
+}
+
+.nav{
+    background:none;
+    color:#777;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.nav.active{
+    color:var(--orange);
+}
+
+.nav div{
+    font-size:22px;
+    margin-bottom:3px;
+}
+
+/* CART */
+
+.drawer{
+    position:fixed;
+    inset:0;
+    background:#0008;
+    display:none;
+    z-index:50;
+}
+
+.drawer.open{
+    display:block;
+}
+
+.cart-panel{
+    position:absolute;
+    right:0;
+    top:0;
+    height:100%;
+    width:min(430px,94%);
+    background:white;
+    padding:20px;
+    overflow:auto;
+}
+
+.cart-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.close{
+    width:38px;
+    height:38px;
+    border:0;
+    border-radius:50%;
+    background:#eee;
+    font-size:20px;
+}
+
+.cart-item{
+    display:flex;
+    gap:10px;
+    padding:13px 0;
+    border-bottom:1px solid #eee;
+}
+
+.cart-item img{
+    width:65px;
+    height:65px;
+    object-fit:cover;
+    border-radius:11px;
+}
+
+.cart-info{
+    flex:1;
+}
+
+.qty button{
+    width:27px;
+    height:27px;
+    border:0;
+    background:#eee;
+    border-radius:7px;
+}
+
+.total{
+    display:flex;
+    justify-content:space-between;
+    font-size:20px;
+    font-weight:900;
+    margin:20px 0;
+}
+
+.checkout{
+    width:100%;
+    padding:15px;
+    background:var(--orange);
+    color:white;
+    border:0;
+    border-radius:13px;
+    font-weight:bold;
+}
+
+/* CHECKOUT */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:#0008;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    z-index:60;
+}
+
+.modal.open{
+    display:flex;
+}
+
+.modal-box{
+    width:min(500px,100%);
+    background:white;
+    border-radius:22px;
+    padding:20px;
+}
+
+.form input,
+.form textarea{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    border:1px solid #ddd;
+    border-radius:11px;
+    outline:none;
+}
+
+.form textarea{
+    min-height:90px;
+}
+
+.toast{
+    position:fixed;
+    bottom:95px;
+    left:50%;
+    transform:translate(-50%,20px);
+    background:#222;
+    color:white;
+    padding:12px 18px;
+    border-radius:12px;
+    opacity:0;
+    transition:.25s;
+    z-index:100;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+@media(min-width:700px){
+    .products{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .product img{
+        height:240px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="header-inner">
+
+<div class="brand">
+
+<div class="logo">
+AW
+</div>
+
+<div>
+<h1 id="storeName">
+ANISUR WEAR
+</h1>
+
+<p id="tagline">
+Premium Fashion Store
+</p>
+
+</div>
+
+</div>
+
+<button class="cart-btn" onclick="openCart()">
+🛒 Cart (<span id="cartCount">0</span>)
+</button>
+
+</div>
+
+<div class="search">
+
+<input
+id="search"
+type="text"
+placeholder="Search shirt, pant, jeans..."
+oninput="renderProducts()">
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+<div class="categories" id="categories"></div>
+
+<section class="hero">
+
+<h2 id="heroTitle">
+New Season Collection
+</h2>
+
+<p id="heroText">
+Premium shirts, jeans, trousers & more.<br>
+Fresh styles. Smart prices.
+</p>
+
+</section>
+
+
+<div class="title">
+
+<h2>
+Featured Collection
+</h2>
+
+<span id="productCount">
+0 Products
+</span>
+
+</div>
+
+
+<section class="products" id="products"></section>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+<button class="nav active">
+<div>🏠</div>
+Home
+</button>
+
+<button class="nav" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">
+<div>👕</div>
+Categories
+</button>
+
+<button class="nav" onclick="openCart()">
+<div>🛒</div>
+Cart
+</button>
+
+<button class="nav">
+<div>ℹ️</div>
+About
+</button>
+
+</nav>
+
+
+<!-- CART -->
+
+<div class="drawer" id="drawer">
+
+<div class="cart-panel">
+
+<div class="cart-head">
+
+<h2>🛒 Your Cart</h2>
+
+<button class="close" onclick="closeCart()">
+×
+</button>
+
+</div>
+
+<div id="cartItems"></div>
+
+<div class="total">
+
+<span>Total</span>
+
+<span id="cartTotal">
+₹0
+</span>
+
+</div>
+
+<button class="checkout" onclick="openCheckout()">
+Proceed to Checkout
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div class="modal" id="checkoutModal">
+
+<div class="modal-box">
+
+<div class="cart-head">
+
+<h2>
+Checkout
+</h2>
+
+<button class="close" onclick="closeCheckout()">
+×
+</button>
+
+</div>
+
+<div class="form">
+
+<input
+id="customerName"
+placeholder="Your name">
+
+<input
+id="customerPhone"
+placeholder="Mobile number">
+
+<textarea
+id="customerAddress"
+placeholder="Full delivery address"></textarea>
+
+<button
+class="checkout"
+onclick="placeOrder()">
+
+Place Order — Cash on Delivery
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script type="module">
+
+import {
+initializeApp
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs,
+addDoc,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+firebaseConfig
+}
+from "./firebase-config.js";
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+let products = [];
+
+let cart = [];
+
+let currentCategory = "All";
+
+
+const demoProducts = [
+
+{
+id:"demo1",
+name:"Premium Black Shirt",
+category:"Shirts",
+type:"Men",
+price:799,
+oldPrice:999,
+image:"https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=800&q=85",
+description:"Premium quality shirt."
+},
+
+{
+id:"demo2",
+name:"Classic White Shirt",
+category:"Shirts",
+type:"Men",
+price:699,
+oldPrice:899,
+image:"https://images.unsplash.com/photo-1598032895397-b9472444bf93?auto=format&fit=crop&w=800&q=85",
+description:"Classic comfortable shirt."
+},
+
+{
+id:"demo3",
+name:"Oversized Black T-Shirt",
+category:"T-Shirts",
+type:"Unisex",
+price:499,
+oldPrice:649,
+image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=85",
+description:"Premium oversized T-shirt."
+},
+
+{
+id:"demo4",
+name:"Premium Blue Jeans",
+category:"Jeans",
+type:"Men",
+price:1199,
+oldPrice:1499,
+image:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=85",
+description:"Premium denim jeans."
+}
+
+];
+
+
+async function loadProducts(){
+
+try{
+
+const snapshot =
+await getDocs(collection(db,"products"));
+
+if(snapshot.empty){
+
+products = demoProducts;
+
+}else{
+
+products =
+snapshot.docs.map(doc=>({
+id:doc.id,
+...doc.data()
+}));
+
+}
+
+}catch(error){
+
+products = demoProducts;
+
+}
+
+renderProducts();
+
+}
+
+
+function money(number){
+
+return "₹" +
+Number(number).toLocaleString("en-IN");
+
+}
+
+
+function showToast(message){
+
+const toast =
+document.getElementById("toast");
+
+toast.textContent = message;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+
+toast.classList.remove("show");
+
+},1800);
+
+}
+
+
+window.selectCategory =
+function(category){
+
+currentCategory = category;
+
+renderProducts();
+
+};
+
+
+window.renderProducts =
+function(){
+
+const search =
+document.getElementById("search")
+.value
+.toLowerCase();
+
+const categories =
+[
+"All",
+...new Set(products.map(p=>p.category))
+];
+
+
+document.getElementById("categories")
+.innerHTML =
+categories.map(category=>`
+
+<button
+class="category ${category===currentCategory?"active":""}"
+onclick="selectCategory('${category}')">
+
+${category}
+
+</button>
+
+`).join("");
+
+
+const filtered =
+products.filter(product=>{
+
+const categoryMatch =
+currentCategory==="All" ||
+product.category===currentCategory;
+
+const searchMatch =
+product.name.toLowerCase().includes(search);
+
+return categoryMatch && searchMatch;
+
+});
+
+
+document.getElementById("productCount")
+.textContent =
+filtered.length+" Products";
+
+
+document.getElementById("products")
+.innerHTML =
+filtered.map(product=>`
+
+<article class="product">
+
+<img
+src="${product.image}"
+alt="${product.name}">
+
+<div class="product-body">
+
+<span class="badge">
+${product.type || "Unisex"} • ${product.category}
+</span>
+
+<h3>
+${product.name}
+</h3>
+
+<div class="description">
+${product.description || "Premium quality fashion product."}
+</div>
+
+<div class="product-bottom">
+
+<div>
+
+<span class="price">
+${money(product.price)}
+</span>
+
+<span class="old-price">
+${product.oldPrice ? money(product.oldPrice) : ""}
+</span>
+
+</div>
+
+<button
+class="add"
+onclick="addToCart('${product.id}')">
+
++ Add
+
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+`).join("");
+
+};
+
+
+window.addToCart =
+function(id){
+
+const product =
+products.find(p=>p.id===id);
+
+const existing =
+cart.find(p=>p.id===id);
+
+if(existing){
+
+existing.quantity++;
+
+}else{
+
+cart.push({
+...product,
+quantity:1
+});
+
+}
+
+updateCart();
+
+showToast("✓ Added to cart");
+
+};
+
+
+function updateCart(){
+
+document.getElementById("cartCount")
+.textContent =
+cart.reduce(
+(total,item)=>total+item.quantity,
+0
+);
+
+
+const container =
+document.getElementById("cartItems");
+
+
+if(cart.length===0){
+
+container.innerHTML =
+"<p style='text-align:center;color:#777;padding:30px'>Your cart is empty 🛍️</p>";
+
+}else{
+
+container.innerHTML =
+cart.map(item=>`
+
+<div class="cart-item">
+
+<img src="${item.image}">
+
+<div class="cart-info">
+
+<b>${item.name}</b>
+
+<br>
+
+<small>
+${money(item.price)}
+</small>
+
+<div class="qty">
+
+<button onclick="changeQuantity('${item.id}',-1)">
+−
+</button>
+
+${item.quantity}
+
+<button onclick="changeQuantity('${item.id}',1)">
++
+</button>
+
+</div>
+
+</div>
+
+<b>
+${money(item.price*item.quantity)}
+</b>
+
+</div>
+
+`).join("");
+
+}
+
+
+const total =
+cart.reduce(
+(sum,item)=>
+sum+(item.price*item.quantity),
+0
+);
+
+
+document.getElementById("cartTotal")
+.textContent =
+money(total);
+
+}
+
+
+window.changeQuantity =
+function(id,change){
+
+const item =
+cart.find(p=>p.id===id);
+
+if(!item)return;
+
+item.quantity += change;
+
+if(item.quantity<=0){
+
+cart =
+cart.filter(p=>p.id!==id);
+
+}
+
+updateCart();
+
+};
+
+
+window.openCart =
+function(){
+
+updateCart();
+
+document
+.getElementById("drawer")
+.classList.add("open");
+
+};
+
+
+window.closeCart =
+function(){
+
+document
+.getElementById("drawer")
+.classList.remove("open");
+
+};
+
+
+window.openCheckout =
+function(){
+
+if(cart.length===0){
+
+showToast("Your cart is empty");
+
+return;
+
+}
+
+closeCart();
+
+document
+.getElementById("checkoutModal")
+.classList.add("open");
+
+};
+
+
+window.closeCheckout =
+function(){
+
+document
+.getElementById("checkoutModal")
+.classList.remove("open");
+
+};
+
+
+window.placeOrder =
+async function(){
+
+const name =
+document.getElementById("customerName")
+.value.trim();
+
+const phone =
+document.getElementById("customerPhone")
+.value.trim();
+
+const address =
+document.getElementById("customerAddress")
+.value.trim();
+
+
+if(!name || !phone || !address){
+
+showToast("Please fill all details");
+
+return;
+
+}
+
+
+const total =
+cart.reduce(
+(sum,item)=>
+sum+(item.price*item.quantity),
+0
+);
+
+
+const order = {
+
+customerName:name,
+
+phone:phone,
+
+address:address,
+
+items:cart.map(item=>({
+
+productId:item.id,
+
+name:item.name,
+
+quantity:item.quantity,
+
+price:item.price
+
+})),
+
+total:total,
+
+payment:"Cash on Delivery",
+
+status:"new",
+
+createdAt:serverTimestamp()
+
+};
+
+
+try{
+
+await addDoc(
+collection(db,"orders"),
+order
+);
+
+showToast("✓ Order placed successfully");
+
+cart=[];
+
+updateCart();
+
+closeCheckout();
+
+}catch(error){
+
+showToast("Order could not be saved");
+
+}
+
+};
+
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
