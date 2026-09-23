@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>ANISUR WEAR — Admin Panel</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f5f6f8;
+color:#171717;
+}
+
+:root{
+--orange:#ff4b18;
+}
+
+.header{
+background:linear-gradient(135deg,#ff3510,#ff741f);
+color:white;
+padding:18px;
+border-radius:0 0 30px 30px;
+}
+
+.header-inner{
+max-width:1100px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo{
+width:55px;
+height:55px;
+background:white;
+color:var(--orange);
+border-radius:17px;
+display:grid;
+place-items:center;
+font-weight:900;
+}
+
+.brand h1{
+font-size:24px;
+}
+
+.brand p{
+font-size:13px;
+margin-top:4px;
+}
+
+.logout{
+background:white;
+color:var(--orange);
+border:0;
+padding:10px 15px;
+border-radius:20px;
+font-weight:bold;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:18px 15px 70px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+}
+
+.stat{
+background:white;
+padding:18px;
+border-radius:18px;
+}
+
+.stat small{
+color:#777;
+}
+
+.stat strong{
+display:block;
+font-size:25px;
+margin-top:7px;
+}
+
+.tabs{
+display:flex;
+gap:10px;
+margin:20px 0;
+overflow:auto;
+}
+
+.tab{
+border:0;
+padding:11px 17px;
+border-radius:22px;
+background:white;
+font-weight:bold;
+white-space:nowrap;
+}
+
+.tab.active{
+background:var(--orange);
+color:white;
+}
+
+.panel{
+background:white;
+padding:18px;
+border-radius:22px;
+box-shadow:0 4px 16px #0001;
+}
+
+.panel-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.primary{
+background:var(--orange);
+color:white;
+border:0;
+padding:12px 15px;
+border-radius:11px;
+font-weight:bold;
+}
+
+.search{
+width:100%;
+padding:13px;
+border:1px solid #ddd;
+border-radius:11px;
+margin-bottom:15px;
+outline:none;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:13px;
+}
+
+.product{
+border:1px solid #eee;
+border-radius:16px;
+overflow:hidden;
+}
+
+.product img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.product-body{
+padding:12px;
+}
+
+.badge{
+display:inline-block;
+font-size:11px;
+padding:4px 7px;
+border-radius:7px;
+border:1px solid #168b4b;
+color:#168b4b;
+font-weight:bold;
+}
+
+.product h3{
+margin:8px 0 5px;
+}
+
+.price{
+font-size:19px;
+font-weight:900;
+color:var(--orange);
+}
+
+.actions{
+display:flex;
+gap:7px;
+margin-top:10px;
+}
+
+.edit{
+background:#eee;
+padding:9px 12px;
+border:0;
+border-radius:9px;
+}
+
+.delete{
+background:#ffe5df;
+color:#d42b08;
+padding:9px 12px;
+border:0;
+border-radius:9px;
+}
+
+.orders{
+display:grid;
+gap:12px;
+}
+
+.order{
+border:1px solid #eee;
+border-radius:15px;
+padding:14px;
+}
+
+.status{
+padding:8px;
+border:1px solid #ddd;
+border-radius:9px;
+margin-top:10px;
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:#0008;
+display:none;
+align-items:center;
+justify-content:center;
+padding:15px;
+z-index:100;
+}
+
+.modal.open{
+display:flex;
+}
+
+.modal-box{
+width:min(520px,100%);
+background:white;
+border-radius:22px;
+padding:20px;
+max-height:90vh;
+overflow:auto;
+}
+
+.modal-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.close{
+width:38px;
+height:38px;
+border:0;
+border-radius:50%;
+background:#eee;
+font-size:20px;
+}
+
+.input{
+width:100%;
+padding:13px;
+border:1px solid #ddd;
+border-radius:11px;
+margin:6px 0;
+outline:none;
+}
+
+.save{
+width:100%;
+padding:14px;
+background:var(--orange);
+color:white;
+border:0;
+border-radius:12px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.toast{
+position:fixed;
+bottom:25px;
+left:50%;
+transform:translate(-50%,20px);
+background:#222;
+color:white;
+padding:12px 18px;
+border-radius:12px;
+opacity:0;
+transition:.25s;
+z-index:200;
+}
+
+.toast.show{
+opacity:1;
+transform:translate(-50%,0);
+}
+
+@media(max-width:700px){
+
+.stats{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+<div class="header-inner">
+
+<div class="brand">
+
+<div class="logo">
+AW
+</div>
+
+<div>
+
+<h1>
+ANISUR WEAR
+</h1>
+
+<p>
+Admin Control Panel
+</p>
+
+</div>
+
+</div>
+
+<button
+class="logout"
+onclick="logoutAdmin()">
+
+Logout
+
+</button>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="stats">
+
+<div class="stat">
+👕
+<small>Products</small>
+<strong id="totalProducts">0</strong>
+</div>
+
+<div class="stat">
+🛒
+<small>Orders</small>
+<strong id="totalOrders">0</strong>
+</div>
+
+<div class="stat">
+💰
+<small>Sales</small>
+<strong id="totalSales">₹0</strong>
+</div>
+
+<div class="stat">
+👥
+<small>Customers</small>
+<strong id="totalCustomers">0</strong>
+</div>
+
+</div>
+
+
+<div class="tabs">
+
+<button
+class="tab active"
+onclick="showProducts()">
+
+👕 Products
+
+</button>
+
+<button
+class="tab"
+onclick="showOrders()">
+
+🛒 Orders
+
+</button>
+
+</div>
+
+
+<section
+id="productsPanel"
+class="panel">
+
+<div class="panel-header">
+
+<h2>
+Product Management
+</h2>
+
+<button
+class="primary"
+onclick="openProductModal()">
+
+＋ Add Product
+
+</button>
+
+</div>
+
+
+<input
+class="search"
+id="search"
+placeholder="Search product..."
+oninput="renderProducts()">
+
+
+<div
+class="products"
+id="products">
+
+</div>
+
+</section>
+
+
+<section
+id="ordersPanel"
+class="panel"
+style="display:none">
+
+<h2>
+Customer Orders
+</h2>
+
+<br>
+
+<div
+class="orders"
+id="orders">
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- PRODUCT MODAL -->
+
+<div
+class="modal"
+id="productModal">
+
+<div class="modal-box">
+
+<div class="modal-head">
+
+<h2 id="modalTitle">
+Add Product
+</h2>
+
+<button
+class="close"
+onclick="closeProductModal()">
+
+×
+
+</button>
+
+</div>
+
+
+<input
+class="input"
+id="productName"
+placeholder="Product name">
+
+
+<select
+class="input"
+id="category">
+
+<option>
+Shirts
+</option>
+
+<option>
+T-Shirts
+</option>
+
+<option>
+Jeans
+</option>
+
+<option>
+Pants
+</option>
+
+<option>
+Jackets
+</option>
+
+</select>
+
+
+<select
+class="input"
+id="type">
+
+<option>
+Men
+</option>
+
+<option>
+Women
+</option>
+
+<option>
+Unisex
+</option>
+
+</select>
+
+
+<input
+class="input"
+id="price"
+type="number"
+placeholder="Selling price">
+
+
+<input
+class="input"
+id="oldPrice"
+type="number"
+placeholder="Old price">
+
+
+<input
+class="input"
+id="image"
+placeholder="Product image URL">
+
+
+<textarea
+class="input"
+id="description"
+placeholder="Product description"
+style="min-height:90px"></textarea>
+
+
+<button
+class="save"
+onclick="saveProduct()">
+
+Save Product
+
+</button>
+
+</div>
+
+</div>
+
+
+<div
+class="toast"
+id="toast">
+</div>
+
+
+<script type="module">
+
+import {
+initializeApp
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+import {
+getFirestore,
+collection,
+getDocs,
+addDoc,
+updateDoc,
+deleteDoc,
+doc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+import {
+firebaseConfig
+}
+from "./firebase-config.js";
+
+
+const app =
+initializeApp(firebaseConfig);
+
+
+const auth =
+getAuth(app);
+
+
+const db =
+getFirestore(app);
+
+
+let products=[];
+
+let orders=[];
+
+let editId=null;
+
+
+function money(number){
+
+return "₹"+
+Number(number||0)
+.toLocaleString("en-IN");
+
+}
+
+
+function toast(message){
+
+const t =
+document.getElementById("toast");
+
+t.textContent=message;
+
+t.classList.add("show");
+
+setTimeout(()=>{
+t.classList.remove("show");
+},1800);
+
+}
+
+
+async function loadData(){
+
+const productSnapshot =
+await getDocs(
+collection(db,"products")
+);
+
+products =
+productSnapshot.docs.map(
+doc=>({
+id:doc.id,
+...doc.data()
+})
+);
+
+
+const orderSnapshot =
+await getDocs(
+collection(db,"orders")
+);
+
+orders =
+orderSnapshot.docs.map(
+doc=>({
+id:doc.id,
+...doc.data()
+})
+);
+
+
+renderProducts();
+
+renderOrders();
+
+updateStats();
+
+}
+
+
+function updateStats(){
+
+document.getElementById("totalProducts")
+.textContent=
+products.length;
+
+
+document.getElementById("totalOrders")
+.textContent=
+orders.length;
+
+
+const sales =
+orders
+.filter(o=>o.status!=="cancelled")
+.reduce(
+(sum,o)=>
+sum+Number(o.total||0),
+0
+);
+
+
+document.getElementById("totalSales")
+.textContent=
+money(sales);
+
+
+const customers =
+new Set(
+orders.map(o=>o.phone)
+);
+
+
+document.getElementById("totalCustomers")
+.textContent=
+customers.size;
+
+}
+
+
+window.renderProducts =
+function(){
+
+const search =
+document.getElementById("search")
+.value
+.toLowerCase();
+
+
+const filtered =
+products.filter(p=>
+p.name
+.toLowerCase()
+.includes(search)
+);
+
+
+document.getElementById("products")
+.innerHTML =
+filtered.map(p=>`
+
+<article class="product">
+
+<img src="${p.image}">
+
+<div class="product-body">
+
+<span class="badge">
+${p.type} • ${p.category}
+</span>
+
+<h3>
+${p.name}
+</h3>
+
+<p>
+<span class="price">
+${money(p.price)}
+</span>
+</p>
+
+<small>
+${p.description||""}
+</small>
+
+<div class="actions">
+
+<button
+class="edit"
+onclick="editProduct('${p.id}')">
+
+✏️ Edit
+
+</button>
+
+<button
+class="delete"
+onclick="deleteProduct('${p.id}')">
+
+🗑 Delete
+
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+`).join("");
+
+};
+
+
+window.openProductModal =
+function(){
+
+editId=null;
+
+document.getElementById("modalTitle")
+.textContent="Add Product";
+
+document.getElementById("productName")
+.value="";
+
+document.getElementById("price")
+.value="";
+
+document.getElementById("oldPrice")
+.value="";
+
+document.getElementById("image")
+.value="";
+
+document.getElementById("description")
+.value="";
+
+document.getElementById("productModal")
+.classList.add("open");
+
+};
+
+
+window.closeProductModal =
+function(){
+
+document.getElementById("productModal")
+.classList.remove("open");
+
+};
+
+
+window.editProduct =
+function(id){
+
+const p =
+products.find(x=>x.id===id);
+
+editId=id;
+
+document.getElementById("modalTitle")
+.textContent="Edit Product";
+
+document.getElementById("productName")
+.value=p.name;
+
+document.getElementById("category")
+.value=p.category;
+
+document.getElementById("type")
+.value=p.type;
+
+document.getElementById("price")
+.value=p.price;
+
+document.getElementById("oldPrice")
+.value=p.oldPrice||"";
+
+document.getElementById("image")
+.value=p.image;
+
+document.getElementById("description")
+.value=p.description||"";
+
+document.getElementById("productModal")
+.classList.add("open");
+
+};
+
+
+window.saveProduct =
+async function(){
+
+const data={
+
+name:
+document.getElementById("productName").value.trim(),
+
+category:
+document.getElementById("category").value,
+
+type:
+document.getElementById("type").value,
+
+price:
+Number(document.getElementById("price").value),
+
+oldPrice:
+Number(document.getElementById("oldPrice").value||0),
+
+image:
+document.getElementById("image").value.trim(),
+
+description:
+document.getElementById("description").value.trim()
+
+};
+
+
+if(!data.name ||
+!data.price ||
+!data.image){
+
+toast("Name, price and image required");
+
+return;
+
+}
+
+
+try{
+
+if(editId){
+
+await updateDoc(
+doc(db,"products",editId),
+data
+);
+
+toast("✓ Product updated");
+
+}else{
+
+await addDoc(
+collection(db,"products"),
+data
+);
+
+toast("✓ Product added");
+
+}
+
+
+closeProductModal();
+
+await loadData();
+
+}catch(error){
+
+toast("Something went wrong");
+
+}
+
+};
+
+
+window.deleteProduct =
+async function(id){
+
+if(!confirm("Delete this product?"))
+return;
+
+
+await deleteDoc(
+doc(db,"products",id)
+);
+
+toast("Product deleted");
+
+loadData();
+
+};
+
+
+function renderOrders(){
+
+document.getElementById("orders")
+.innerHTML =
+orders.map(o=>`
+
+<div class="order">
+
+<b>
+Order #${o.id.slice(-6)}
+</b>
+
+<p>
+
+👤 ${o.customerName||""}
+
+<br>
+
+📱 ${o.phone||""}
+
+<br>
+
+📍 ${o.address||""}
+
+<br>
+
+💰 <b>${money(o.total)}</b>
+
+</p>
+
+
+<select
+class="status"
+onchange="updateOrderStatus('${o.id}',this.value)">
+
+<option value="new"
+${o.status==="new"?"selected":""}>
+New
+</option>
+
+<option value="accepted"
+${o.status==="accepted"?"selected":""}>
+Accepted
+</option>
+
+<option value="preparing"
+${o.status==="preparing"?"selected":""}>
+Preparing
+</option>
+
+<option value="out_for_delivery"
+${o.status==="out_for_delivery"?"selected":""}>
+Out for Delivery
+</option>
+
+<option value="delivered"
+${o.status==="delivered"?"selected":""}>
+Delivered
+</option>
+
+<option value="cancelled"
+${o.status==="cancelled"?"selected":""}>
+Cancelled
+</option>
+
+</select>
+
+</div>
+
+`).join("");
+
+}
+
+
+window.updateOrderStatus =
+async function(id,status){
+
+await updateDoc(
+doc(db,"orders",id),
+{
+status:status
+}
+);
+
+toast("✓ Order status updated");
+
+loadData();
+
+};
+
+
+window.showProducts =
+function(){
+
+document.getElementById("productsPanel")
+.style.display="block";
+
+document.getElementById("ordersPanel")
+.style.display="none";
+
+};
+
+
+window.showOrders =
+function(){
+
+document.getElementById("productsPanel")
+.style.display="none";
+
+document.getElementById("ordersPanel")
+.style.display="block";
+
+};
+
+
+window.logoutAdmin =
+function(){
+
+signOut(auth);
+
+};
+
+
+onAuthStateChanged(
+auth,
+user=>{
+
+if(user){
+
+loadData();
+
+}else{
+
+showLogin();
+
+}
+
+});
+
+
+function showLogin(){
+
+const email =
+prompt("Admin Email");
+
+const password =
+prompt("Admin Password");
+
+
+if(email && password){
+
+signInWithEmailAndPassword(
+auth,
+email,
+password
+)
+.catch(()=>{
+
+alert("Wrong email or password");
+
+});
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
